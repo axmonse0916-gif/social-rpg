@@ -19,135 +19,54 @@
             background-color: var(--bg-color);
             color: var(--text-color);
             font-family: 'Noto Sans TC', sans-serif;
-            margin: 0;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            margin: 0; padding: 20px;
+            display: flex; flex-direction: column; align-items: center;
         }
 
-        .game-title {
-            font-size: 2.3rem;
-            color: #ffd700;
-            text-shadow: 3px 3px #ff4500;
-            text-align: center;
-            margin-bottom: 5px;
-        }
+        .game-title { font-size: 2.3rem; color: #ffd700; text-shadow: 3px 3px #ff4500; text-align: center; margin-bottom: 5px; }
+        .subtitle { text-align: center; color: #a2a8d3; margin-bottom: 25px; }
+        .container { width: 100%; max-width: 900px; background: var(--panel-color); border: var(--pixel-border); box-shadow: 8px 8px 0px #0f172a; padding: 25px; box-sizing: border-box; border-radius: 8px; }
+        .role-badge { background: #e94560; color: white; padding: 5px 15px; font-weight: bold; border-radius: 20px; margin-bottom: 15px; display: inline-block; }
 
-        .subtitle {
-            text-align: center;
-            color: #a2a8d3;
-            margin-bottom: 25px;
-        }
-
-        .container {
-            width: 100%;
-            max-width: 800px;
-            background: var(--panel-color);
-            border: var(--pixel-border);
-            box-shadow: 8px 8px 0px #0f172a;
-            padding: 25px;
-            box-sizing: border-box;
-            border-radius: 8px;
-        }
-
-        .role-badge {
-            background: #e94560;
-            color: white;
-            padding: 5px 15px;
-            font-weight: bold;
-            border-radius: 20px;
-            margin-bottom: 15px;
-            display: inline-block;
-        }
-
-        .stage {
-            display: none;
-            margin-bottom: 25px;
-            padding: 20px;
-            background: rgba(255,255,255,0.05);
-            border-left: 5px solid var(--accent-color);
-            border-radius: 4px;
-        }
-
+        .stage { display: none; margin-bottom: 25px; padding: 20px; background: rgba(255,255,255,0.05); border-left: 5px solid var(--accent-color); border-radius: 4px; }
         .stage.active { display: block; animation: fadeIn 0.5s; }
 
-        h2 { color: #00ffd2; margin-top: 0; font-size: 1.4rem; }
-        label { display: block; margin: 15px 0 5px; font-size: 1.05rem; font-weight: bold; }
+        h2 { color: #00ffd2; margin-top: 0; font-size: 1.4rem; border-bottom: 1px solid #4e5d6c; padding-bottom: 10px; }
+        label { display: block; margin: 15px 0 8px; font-size: 1.1rem; font-weight: bold; }
         
-        input[type="text"], select {
-            width: 100%;
-            padding: 12px;
-            background: #0f172a;
-            border: 2px solid #4e5d6c;
-            color: white;
-            font-size: 1rem;
-            box-sizing: border-box;
-            border-radius: 4px;
-        }
-        input[type="text"]:focus, select:focus { border-color: var(--accent-color); outline: none; }
-
-        .card-group {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 12px;
-            margin-top: 10px;
-        }
-
-        .card {
-            background: #252a34;
-            border: 2px solid #4e5d6c;
-            padding: 12px;
-            text-align: center;
-            cursor: pointer;
-            border-radius: 6px;
-            transition: all 0.2s;
-        }
+        input[type="text"], select { width: 100%; padding: 12px; background: #0f172a; border: 2px solid #4e5d6c; color: white; font-size: 1rem; border-radius: 4px; box-sizing: border-box; }
+        
+        /* 選擇卡片樣式 */
+        .card-group { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 12px; margin-top: 10px; }
+        .card { background: #252a34; border: 2px solid #4e5d6c; padding: 12px; text-align: center; cursor: pointer; border-radius: 6px; transition: all 0.2s; }
         .card:hover { border-color: #ffd700; transform: translateY(-2px); }
-        .card.selected { background: #2b580c; border-color: #00ff00; box-shadow: 0 0 8px rgba(0,255,0,0.4); }
-        .card h3 { margin: 0 0 5px 0; font-size: 1.05rem; color: #ffde7d; }
-        .card p { margin: 0; font-size: 0.85rem; color: #b8b8b8; }
+        .card.selected { background: #2b580c; border-color: #00ff00; box-shadow: 0 0 10px rgba(0,255,0,0.4); }
+        .card h3 { margin: 0 0 5px 0; font-size: 1rem; color: #ffde7d; }
+        .card p { margin: 0; font-size: 0.8rem; color: #b8b8b8; }
 
-        .btn {
-            background: #00b4d8;
-            color: #fff;
-            border: none;
-            padding: 12px;
-            font-size: 1.1rem;
-            font-weight: bold;
-            cursor: pointer;
-            margin-top: 15px;
-            width: 100%;
-            border-radius: 4px;
-            text-shadow: 1px 1px #000;
-        }
+        /* 小考題目樣式 */
+        .quiz-item { background: rgba(0,0,0,0.3); padding: 15px; margin-bottom: 15px; border-radius: 6px; border: 1px solid #34495e; }
+        .quiz-q { font-weight: bold; color: #ffd700; margin-bottom: 10px; }
+        .options { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .opt-btn { background: #34495e; border: 1px solid #4e5d6c; color: white; padding: 8px; border-radius: 4px; cursor: pointer; text-align: left; }
+        .opt-btn:hover { background: #4e5d6c; }
+        .opt-btn.active { background: #e94560; border-color: white; }
+
+        .btn { background: #00b4d8; color: #fff; border: none; padding: 12px; font-size: 1.1rem; font-weight: bold; cursor: pointer; margin-top: 15px; width: 100%; border-radius: 4px; text-shadow: 1px 1px #000; }
         .btn:hover { background: #0096c7; }
 
-        .teacher-box {
-            margin-top: 15px;
-            padding: 12px;
-            background: #34495e;
-            border: 2px dashed #ffd700;
-            border-radius: 6px;
-            font-size: 0.95rem;
-        }
+        .teacher-box { margin-top: 15px; padding: 15px; background: #34495e; border: 2px dashed #ffd700; border-radius: 6px; line-height: 1.6; }
         .locked { color: #95a5a6; text-align: center; font-style: italic; }
 
+        /* 老師儀表板 */
         .dashboard-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
         .p-panel { background: #0f172a; border: 2px solid #4e5d6c; padding: 15px; border-radius: 6px; }
         .p-panel h3 { margin-top: 0; color: #00ffd2; border-bottom: 1px solid #4e5d6c; padding-bottom: 5px; }
-        .badge { background: #790252; padding: 2px 8px; border-radius: 4px; font-size: 0.8rem; margin-left: 5px; }
+        .badge { background: #e94560; padding: 2px 8px; border-radius: 4px; font-size: 0.8rem; margin-left: 5px; }
 
-        .event-box {
-            display: none;
-            background: linear-gradient(45deg, #4c0033, #790252);
-            border: 3px double #ff007f;
-            padding: 20px;
-            margin-top: 25px;
-            text-align: center;
-            border-radius: 8px;
-        }
+        .event-box { display: none; background: linear-gradient(45deg, #4c0033, #790252); border: 3px double #ff007f; padding: 20px; margin-top: 25px; text-align: center; border-radius: 8px; animation: pulse 2s infinite; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.02); } 100% { transform: scale(1); } }
     </style>
 </head>
 <body>
@@ -159,75 +78,115 @@
         <div id="roleIndicator" class="role-badge">正在偵測特務身份...</div>
 
         <div id="studentInterface" style="display:none;">
+            
             <div id="stage1" class="stage active">
                 <h2>【關卡一：角色登錄與血緣羈絆】</h2>
-                <label for="pName">請輸入你的特務代號 (名字)：</label>
-                <input type="text" id="pName" placeholder="例如：東區羅賓漢">
-
-                <label for="pSchool">出身新手村 (就讀學校)：</label>
-                <input type="text" id="pSchool" placeholder="例如：培英國中">
-
-                <label for="pSiblings">你的「庇護所夥伴」狀況 (有無兄弟姊妹)：</label>
+                <label>特務代號 (名字)：</label>
+                <input type="text" id="pName" placeholder="請輸入名字">
+                <label>出身新手村 (就讀學校)：</label>
+                <input type="text" id="pSchool" placeholder="請輸入學校">
+                <label>庇護所夥伴狀況 (手足)：</label>
                 <select id="pSiblings">
-                    <option value="">-- 請選擇夥伴基因型態 --</option>
-                    <option value="我是獨生子/獨生女，獨享基地物資">我是獨生子/獨生女，獨享基地物資 💎</option>
-                    <option value="有哥哥/姐姐，常得到高級裝備支援">有哥哥/姐姐，常得到高級裝備支援 🛡️</option>
-                    <option value="有弟弟/妹妹，需要負責帶領新手升級">有弟弟/妹妹，需要負責帶領新手升級 🍼</option>
-                    <option value="同時有兄姐與弟妹，夾在中間的資深冒險家">同時有兄姐與弟妹，夾在中間的資深冒險家 👑</option>
+                    <option value="">-- 請選擇夥伴基因 --</option>
+                    <option value="獨生子/女，獨享基地物資">獨生子/女，獨享基地物資 💎</option>
+                    <option value="有哥哥/姐姐，有高級支援">有哥哥/姐姐，有高級支援 🛡️</option>
+                    <option value="有弟弟/妹妹，需帶領新手">有弟弟/妹妹，需帶領新手 🍼</option>
+                    <option value="有兄姐與弟妹，資深冒險家">同時有兄姐與弟妹，資深冒險家 👑</option>
                 </select>
-                
-                <button class="btn" onclick="saveStage1()">保存基本檔案並傳回總局 📡</button>
-                <div class="teacher-box" id="tBox1"><div class="locked">🔒 完成本關，解鎖導師國中回憶</div></div>
+                <button class="btn" onclick="saveStage1()">保存基本檔案 📡</button>
+                <div class="teacher-box" id="tBox1"><div class="locked">🔒 完成本關，解鎖導師國中驚喜</div></div>
             </div>
 
             <div id="stage2" class="stage">
                 <h2>【關卡二：天賦特質與奧義能力】</h2>
-                <label>選擇你最感興趣的「社會科魔法屬性」：</label>
+                <label>社會科魔法屬性：</label>
                 <div class="card-group">
-                    <div class="card" id="sub-history" onclick="selectSubject('歷史', 'sub-history')"><h3>⏳ 時間魔法 (歷史)</h3><p>穿梭過去與未來，看透因果</p></div>
-                    <div class="card" id="sub-geo" onclick="selectSubject('地理', 'sub-geo')"><h3>🗺️ 空間傳送 (地理)</h3><p>掌握地表經緯，一秒定位世界</p></div>
-                    <div class="card" id="sub-civic" onclick="selectSubject('公民', 'sub-civic')"><h3>⚖️ 秩序聖光 (公民)</h3><p>探討法律經濟與社會正義</p></div>
+                    <div class="card" id="sub-history" onclick="selectAttr('歷史', 'sub-history')"><h3>⏳ 時間魔法 (歷史)</h3></div>
+                    <div class="card" id="sub-geo" onclick="selectAttr('地理', 'sub-geo')"><h3>🗺️ 空間傳送 (地理)</h3></div>
+                    <div class="card" id="sub-civic" onclick="selectAttr('公民', 'sub-civic')"><h3>⚖️ 秩序聖光 (公民)</h3></div>
                 </div>
-
-                <label for="pBest">你目前在常規戰場中「最擅長」的魔法學科是？</label>
+                <label>在常規戰場(學校)中，最擅長的科目是：</label>
                 <select id="pBest">
                     <option value="">-- 請選擇擅長學科 --</option>
-                    <option value="國文">📝 語文凝聚 (國文)</option>
-                    <option value="英文">🔤 跨界溝通 (英文)</option>
-                    <option value="數學">🔢 邏輯矩陣 (數學)</option>
-                    <option value="物理/化學">🧪 物質煉金 (理化)</option>
-                    <option value="生物/生科">🧬 生命奧秘 (生物/生科)</option>
-                    <option value="社會科">🌍 萬物洞察 (社會)</option>
-                    <option value="藝術/體育">🎨 靈魂解放 (藝能/體育)</option>
+                    <option value="國文">📝 國文</option><option value="英文">🔤 英文</option>
+                    <option value="數學">🔢 數學</option><option value="理化">🧪 理化</option>
+                    <option value="生物/生科">🧬 生物/生科</option><option value="社會">🌍 社會</option>
+                    <option value="藝能/體育">🎨 藝能/體育</option>
                 </select>
-
-                <label for="pInterest">輸入一項你的個人興趣 (轉化為被動技能)：</label>
-                <input type="text" id="pInterest" placeholder="placeholder='例如：打傳說、彈鋼琴、看動漫...'">
-
+                <label>個人興趣 (轉化為被動技能)：</label>
+                <input type="text" id="pInterest" placeholder="例如：打傳說、彈鋼琴...">
                 <button class="btn" onclick="saveStage2()">注入戰力屬性 🧪</button>
                 <div class="teacher-box" id="tBox2"><div class="locked">🔒 完成本關，解鎖導師高中瘋狂往事</div></div>
             </div>
 
             <div id="stage3" class="stage">
                 <h2>【關卡三：記憶迴廊的充電時光】</h2>
-                <label>你認為校園冒險中，哪一個是最讚的「黃金充電時光」？</label>
+                <label>校園冒險中，最讚的「黃金充電時光」：</label>
                 <div class="card-group">
-                    <div class="card" id="time-break" onclick="selectTime('下課十分鐘', 'time-break')"><h3>🏃‍♂️ 下課十分鐘</h3><p>衝福利社、講垃圾話</p></div>
-                    <div class="card" id="time-lunch" onclick="selectTime('午餐與午休', 'time-lunch')"><h3>🍱 歡樂午餐時光</h3><p>全班大吃大喝期待主菜</p></div>
-                    <div class="card" id="time-club" onclick="selectTime('社團活動時間', 'time-club')"><h3>🎸 靈魂共鳴社團課</h3><p>燃燒興趣的自由時間</p></div>
-                    <div class="card" id="time-music" onclick="selectTime('音樂藝術課', 'time-music')"><h3>🎵 療癒旋律音樂課</h3><p>放鬆緊繃課業的歌唱</p></div>
-                    <div class="card" id="time-class" onclick="selectTime('精彩的上課時光', 'time-class')"><h3>💡 獲得新知的上課</h3><p>跟同學互動聽故事</p></div>
+                    <div class="card" id="time-break" onclick="selectTime('下課十分鐘', 'time-break')"><h3>🏃‍♂️ 下課十分鐘</h3></div>
+                    <div class="card" id="time-lunch" onclick="selectTime('午餐與午休', 'time-lunch')"><h3>🍱 午餐與午休</h3></div>
+                    <div class="card" id="time-club" onclick="selectTime('社團活動時間', 'time-club')"><h3>🎸 社團活動時間</h3></div>
+                    <div class="card" id="time-music" onclick="selectTime('音樂藝術課', 'time-music')"><h3>🎵 音樂藝術課</h3></div>
+                    <div class="card" id="time-class" onclick="selectTime('上課時光', 'time-class')"><h3>💡 精彩上課時光</h3></div>
+                </div>
+                <label>選這個時光的理由：</label>
+                <input type="text" id="timeReason" placeholder="例如：可以放鬆聊天">
+                <button class="btn" onclick="saveStage3()">上傳校園記憶 🧠</button>
+            </div>
+
+            <div id="stage4" class="stage">
+                <h2>【關卡四：特務實戰測驗 (翰林版模擬)】</h2>
+                <p style="color:#a2a8d3;">局長指示：完成以下測驗，將啟動兩名特務的靈魂共振比對！</p>
+                
+                <div class="quiz-item">
+                    <div class="quiz-q">1. (歷史) 長濱文化屬於哪一個時期？</div>
+                    <div class="options">
+                        <button class="opt-btn" onclick="setAns(0,'A',this)">舊石器時代</button>
+                        <button class="opt-btn" onclick="setAns(0,'B',this)">新石器時代</button>
+                    </div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-q">2. (歷史) 1624年佔領台灣南部修築熱蘭遮城的是？</div>
+                    <div class="options">
+                        <button class="opt-btn" onclick="setAns(1,'A',this)">西班牙人</button>
+                        <button class="opt-btn" onclick="setAns(1,'B',this)">荷蘭人</button>
+                    </div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-q">3. (地理) 台灣位於哪兩者的交界處？</div>
+                    <div class="options">
+                        <button class="opt-btn" onclick="setAns(2,'A',this)">歐亞大陸與太平洋</button>
+                        <button class="opt-btn" onclick="setAns(2,'B',this)">美洲大陸與大西洋</button>
+                    </div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-q">4. (地理) 台灣面積佔比最高、主要骨幹的地形是？</div>
+                    <div class="options">
+                        <button class="opt-btn" onclick="setAns(3,'A',this)">平原</button>
+                        <button class="opt-btn" onclick="setAns(3,'B',this)">山地</button>
+                    </div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-q">5. (公民) 渴望獲得讚賞與能力肯定，屬於什麼層次需求？</div>
+                    <div class="options">
+                        <button class="opt-btn" onclick="setAns(4,'A',this)">安全需求</button>
+                        <button class="opt-btn" onclick="setAns(4,'B',this)">尊重與自我實現</button>
+                    </div>
+                </div>
+                <div class="quiz-item">
+                    <div class="quiz-q">6. (公民) 不同角色期待發生衝突無法兼顧時，稱為什麼？</div>
+                    <div class="options">
+                        <button class="opt-btn" onclick="setAns(5,'A',this)">角色衝突</button>
+                        <button class="opt-btn" onclick="setAns(5,'B',this)">社會規範</button>
+                    </div>
                 </div>
 
-                <label for="timeReason">請簡短寫下你選這個時光的理由：</label>
-                <input type="text" id="timeReason" placeholder="例如：因為可以學到課本以外的樂器很有成就感">
-
-                <button class="btn" onclick="saveStage3()">上傳終極校園記憶 🧠</button>
+                <button class="btn" onclick="saveStage4()">提交特務測驗並啟動終極聯線 🚀</button>
             </div>
         </div>
 
         <div id="teacherInterface" style="display:none;">
-            <h2 style="color:#ffd700; text-align:center;">📊 調查局實時戰情螢幕 (進度即時同步中)</h2>
+            <h2 style="color:#ffd700; text-align:center;">📊 調查局實時戰情螢幕 (學生作答同步中)</h2>
             <div class="dashboard-grid">
                 <div class="p-panel" id="panelP1">
                     <h3>冒險者 A <span id="p1Status" class="badge">尚未連線</span></h3>
@@ -241,31 +200,32 @@
         </div>
 
         <div class="event-box" id="dualEventBox">
-            <h2 style="color: #ff007f;">⚡ 時空局雙人靈魂共振 ⚡</h2>
-            <div id="eventResultText">正在觀測兩位特務的羈絆頻率...</div>
+            <h2 style="color: #ff007f;">💖 時空局雙人靈魂共振揭曉 💖</h2>
+            <div id="eventResultText">正在觀測兩位特務的靈魂頻率...</div>
             <hr style="border-color: #ff007f; margin: 15px 0;">
-            <h3 style="color: #ffd700;">🎯 局長加碼：首堂課課前挑戰賽</h3>
-            <p>請兩位特務動動腦，並把以下這題謎題的答案，在第一堂課見面時告訴老師，最快且答對的人可獲得<b>【神祕點心兌換券】</b>！</p>
-            <div style="background: rgba(0,0,0,0.4); padding: 12px; border-radius: 4px; font-weight: bold; color: #00ffd2; text-align: left;">
-                謎題：「如果台灣清領時期的沈葆楨、丁日昌、劉銘傳三位大人一起去吃火鍋，請問是誰要負責點菜負責付錢？」<br>
-                (提示：跟他們在台灣推動的近代化建設口訣有關喔！)
+            <h3 style="color: #ffd700;">🎁 局長最終賞：首堂課限時特權</h3>
+            <div style="background: rgba(0,0,0,0.4); padding: 15px; border-radius: 4px; font-weight: bold; color: #00ffd2;">
+                根據調查結果：兩位特務只要能在課程中保持專注，今天可以獲得<b>【局長特許：休息時間提早兩分鐘下課】</b>！<br>
+                (或是答對下方謎題，下一堂課可獲得免死金牌一次！)
             </div>
+            <p style="font-size: 0.9rem; margin-top: 10px;">謎題：「清領時期的沈葆楨、丁日昌、劉銘傳三位大人一起吃火鍋，誰要負責點菜負責付錢？」</p>
         </div>
+
     </div>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
-        // 📝【請在此處的一格一格中，填入你的 Firebase 專案設定】
+        // 🔥【請在此處填入您的 Firebase 專案設定】🔥
         const firebaseConfig = {
             apiKey: "AIzaSyDpfAgfCpfHBQoHDubHJX51Qph5nYKdv2Y",
-            authDomain: "socilrpg.firebaseapp.com",
-            databaseURL: "https://socilrpg-default-rtdb.asia-southeast1.firebasedatabase.app", 
-            projectId: "socilrpg",
-            storageBucket: "socilrpg.firebasestorage.app",
-            messagingSenderId: "715900417861",
-            appId: "1:715900417861:web:a8e238e848688b5278f02c"
+  authDomain: "socilrpg.firebaseapp.com",
+  databaseURL: "https://socilrpg-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "socilrpg",
+  storageBucket: "socilrpg.firebasestorage.app",
+  messagingSenderId: "715900417861",
+  appId: "1:715900417861:web:a8e238e848688b5278f02c"
         };
 
         const app = initializeApp(firebaseConfig);
@@ -275,127 +235,137 @@
         let userRole = urlParams.get('role') || 'visitor';
 
         const teacherAnswers = {
-            t1: "<b>🎵 導師秘密檔案 01</b>：<br>歡迎加入！我國中時期參加<b>國樂社</b>是我最開心的時光，在那裡認識了一群志同道合、一起瘋音樂的夥伴，這也是我愛上歷史與文化的起點喔！",
-            t2: "<b>🔥 導師秘密檔案 02</b>：<br>我高中時做過最瘋狂的事情，就是<b>同時跑春暉社跟國樂社兩個社團</b>！每天放學都在排練與宣導活動之間瘋狂奔波，雖然累到爆，但真的超級熱血！"
+            t1: "<b>🧔 導師秘密檔案 01</b>：<br>我國中參加<b>國樂社</b>是我最開心的時光，在那裡認識了許多一輩子的好友，也開啟了我對傳統文化的熱愛！",
+            t2: "<b>🔥 導師秘密檔案 02</b>：<br>我高中最瘋狂的事：<b>同時跑春暉社跟國樂社兩個社團</b>！每天放學都在排練跟宣導活動間瘋狂奔波，雖然累但超級充實！"
         };
 
-        let localData = { subject: '', time: '' };
+        let tempAnswers = [null, null, null, null, null, null];
+        let localSelections = { attr: '', time: '' };
 
         if (userRole === 'P1' || userRole === 'P2') {
             document.getElementById('studentInterface').style.display = 'block';
-            document.getElementById('roleIndicator').innerText = `🛸 當前身份：特務 ${userRole === 'P1' ? 'A' : 'B'}`;
+            document.getElementById('roleIndicator').innerText = `🛸 特務身份：${userRole === 'P1' ? 'A' : 'B'}`;
+            
+            // 即時同步自己的資料
             onValue(ref(db, 'gamestate/' + userRole), (snapshot) => {
                 const data = snapshot.val();
                 if(data) {
                     if(data.name) document.getElementById('pName').value = data.name;
                     if(data.school) document.getElementById('pSchool').value = data.school;
                     if(data.siblings) document.getElementById('pSiblings').value = data.siblings;
-                    if(data.interest) document.getElementById('pInterest').value = data.interest;
                     if(data.best) document.getElementById('pBest').value = data.best;
+                    if(data.interest) document.getElementById('pInterest').value = data.interest;
                     if(data.reason) document.getElementById('timeReason').value = data.reason;
-                    if(data.subject) {
-                        localData.subject = data.subject;
-                        document.querySelectorAll('#stage2 .card').forEach(c => c.classList.remove('selected'));
-                        const subId = data.subject === '歷史' ? 'sub-history' : data.subject === '地理' ? 'sub-geo' : 'sub-civic';
-                        document.getElementById(subId)?.classList.add('selected');
-                    }
-                    if(data.time) {
-                        localData.time = data.time;
-                        document.querySelectorAll('#stage3 .card').forEach(c => c.classList.remove('selected'));
-                        const tId = data.time === '下課十分鐘' ? 'time-break' : data.time === '午餐與午休' ? 'time-lunch' : data.time === '社團活動時間' ? 'time-club' : data.time === '音樂藝術課' ? 'time-music' : 'time-class';
-                        document.getElementById(tId)?.classList.add('selected');
-                    }
+                    
                     document.getElementById('stage2').className = 'stage' + (data.step >= 2 ? ' active' : '');
                     document.getElementById('stage3').className = 'stage' + (data.step >= 3 ? ' active' : '');
-                    document.getElementById('tBox1').innerHTML = data.step > 1 ? teacherAnswers.t1 : `<div class="locked">🔒 完成本關，解鎖導師國中回憶</div>`;
+                    document.getElementById('stage4').className = 'stage' + (data.step >= 4 ? ' active' : '');
+
+                    document.getElementById('tBox1').innerHTML = data.step > 1 ? teacherAnswers.t1 : `<div class="locked">🔒 完成本關，解鎖導師國中驚喜</div>`;
                     document.getElementById('tBox2').innerHTML = data.step > 2 ? teacherAnswers.t2 : `<div class="locked">🔒 完成本關，解鎖導師高中瘋狂往事</div>`;
                 }
             });
         } else if (userRole === 'teacher') {
             document.getElementById('teacherInterface').style.display = 'block';
-            document.getElementById('roleIndicator').innerText = "🧔 身份確認：全知局長主控台";
+            document.getElementById('roleIndicator').innerText = "🧔 全知局長主控台";
             document.getElementById('roleIndicator').style.background = "#ffd700";
             document.getElementById('roleIndicator').style.color = "#000";
-        } else {
-            document.getElementById('gameSubtitle').innerHTML = "<b style='color:red;'>⚠️ 請使用正確的參數網址進入（例如在網址後方加上 ?role=P1 ）</b>";
         }
 
+        // 全域監聽進度
         onValue(ref(db, 'gamestate'), (snapshot) => {
             const state = snapshot.val() || { P1: {}, P2: {} };
-            if (userRole === 'teacher') { updateTeacherDashboard(state); }
-            if (state.P1 && state.P2 && state.P1.time && state.P2.time) {
+            if (userRole === 'teacher') updateDashboard(state);
+
+            // 當兩人都填完第四關(小考)時，觸發大事件
+            if (state.P1 && state.P2 && state.P1.step >= 5 && state.P2.step >= 5) {
                 document.getElementById('dualEventBox').style.display = 'block';
-                let resultHTML = "";
+                let resultText = "";
                 if (state.P1.time === state.P2.time) {
-                    resultHTML = `<h3>💖 【心靈相通：靈魂超共振】</h3><p>天啊！局長雷達觀測到驚人磁場！<b>${state.P1.name}</b> 和 <b>${state.P2.name}</b> 最喜歡的校園時光竟然都是 <b>【${state.P1.time}】</b>！<br>你們簡真是命定的黃金冒險組合！</p>`;
+                    resultText = `<h3>💖 【心靈相通：靈魂超共振】</h3>
+                    <p>天啊！兩位特務最愛的都是 <b>【${state.P1.time}】</b>！<br>你們具備極高默契，絕對是最佳學習拍檔！</p>`;
                 } else {
-                    resultHTML = `<h3>⚔️ 【思維碰撞：雙雄並立】</h3><p>報告局長！<b>${state.P1.name}</b> 最鍾情於 <b>【${state.P1.time}】</b>，而 <b>${state.P2.name}</b> 則誓死守護 <b>【${state.P2.time}】</b>！<br>看來接下來的課堂會非常精彩！</p>`;
+                    resultText = `<h3>⚔️ 【思維碰撞：雙雄並立】</h3>
+                    <p>特務 A 鍾愛 <b>【${state.P1.time}】</b>，特務 B 則守護 <b>【${state.P2.time}】</b>！<br>不同特質的結合將讓課程更有火花！</p>`;
                 }
-                document.getElementById('eventResultText').innerHTML = resultHTML;
-            } else {
-                document.getElementById('dualEventBox').style.display = 'none';
+                document.getElementById('eventResultText').innerHTML = resultText;
             }
         });
 
-        function updateTeacherDashboard(state) {
+        function updateDashboard(state) {
             ['P1', 'P2'].forEach(pKey => {
                 const p = state[pKey] || {};
-                const statusBadge = document.getElementById(`${pKey.toLowerCase()}Status`);
                 const dataBox = document.getElementById(`${pKey.toLowerCase()}Data`);
-                if (p.name) {
-                    statusBadge.innerText = `關卡 ${p.step || 1} 中`;
-                    statusBadge.style.background = "#2b580c";
-                    dataBox.innerHTML = `<p><b>代號：</b> ${p.name}</p><p><b>新手村：</b> ${p.school}</p><p><b>手足：</b> ${p.siblings || '未填寫'}</p><p><b>魔法屬性：</b> ${p.subject || '未填寫'}</p><p><b>擅長學科：</b> ${p.best || '未填寫'}</p><p><b>興趣技能：</b> ${p.interest || '未填寫'}</p><p><b>充電時光：</b> ${p.time || '未填寫'}</p><p><b>理由：</b> ${p.reason || '未填寫'}</p>`;
-                } else {
-                    statusBadge.innerText = "尚未連線";
-                    statusBadge.style.background = "#790252";
-                    dataBox.innerHTML = "等待特務連線與輸入...";
+                document.getElementById(`${pKey.toLowerCase()}Status`).innerText = p.step ? `關卡 ${p.step}` : '尚未連線';
+                if(p.name) {
+                    dataBox.innerHTML = `
+                        <p><b>代號：</b> ${p.name}</p>
+                        <p><b>屬性：</b> ${p.attr || '-'}</p>
+                        <p><b>擅長：</b> ${p.best || '-'}</p>
+                        <p><b>充電：</b> ${p.time || '-'}</p>
+                        <p><b>得分：</b> ${p.score || 0} / 6</p>
+                    `;
                 }
             });
         }
 
-        window.selectSubject = function(subName, cardId) {
-            localData.subject = subName;
+        window.selectAttr = (name, id) => {
+            localSelections.attr = name;
             document.querySelectorAll('#stage2 .card').forEach(c => c.classList.remove('selected'));
-            document.getElementById(cardId).classList.add('selected');
-        }
+            document.getElementById(id).classList.add('selected');
+        };
 
-        window.selectTime = function(timeName, cardId) {
-            localData.time = timeName;
+        window.selectTime = (name, id) => {
+            localSelections.time = name;
             document.querySelectorAll('#stage3 .card').forEach(c => c.classList.remove('selected'));
-            document.getElementById(cardId).classList.add('selected');
-        }
+            document.getElementById(id).classList.add('selected');
+        };
 
-        window.saveStage1 = function() {
+        window.setAns = (idx, val, btn) => {
+            tempAnswers[idx] = val;
+            const opts = btn.parentElement.querySelectorAll('.opt-btn');
+            opts.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+        };
+
+        window.saveStage1 = () => {
             const name = document.getElementById('pName').value.trim();
             const school = document.getElementById('pSchool').value.trim();
-            const siblings = document.getElementById('pSiblings').value;
-            if(!name || !school || !siblings) { alert('欄位都要填滿才能傳送喔！'); return; }
+            const sibs = document.getElementById('pSiblings').value;
+            if(!name || !school || !sibs) return alert('請填完所有項目！');
             set(ref(db, `gamestate/${userRole}/name`), name);
             set(ref(db, `gamestate/${userRole}/school`), school);
-            set(ref(db, `gamestate/${userRole}/siblings`), siblings);
+            set(ref(db, `gamestate/${userRole}/siblings`), sibs);
             set(ref(db, `gamestate/${userRole}/step`), 2);
-            alert('📡 資料成功傳回總局！關卡二已解鎖！');
-        }
+        };
 
-        window.saveStage2 = function() {
+        window.saveStage2 = () => {
             const best = document.getElementById('pBest').value;
             const interest = document.getElementById('pInterest').value.trim();
-            if(!localData.subject || !best || !interest) { alert('屬性、擅長科目與興趣都要配置喔！'); return; }
-            set(ref(db, `gamestate/${userRole}/subject`), localData.subject);
+            if(!localSelections.attr || !best || !interest) return alert('請完整配置你的天賦！');
+            set(ref(db, `gamestate/${userRole}/attr`), localSelections.attr);
             set(ref(db, `gamestate/${userRole}/best`), best);
             set(ref(db, `gamestate/${userRole}/interest`), interest);
             set(ref(db, `gamestate/${userRole}/step`), 3);
-            alert('🧪 戰力天賦注入成功！最後一關已開啟！');
-        }
+        };
 
-        window.saveStage3 = function() {
+        window.saveStage3 = () => {
             const reason = document.getElementById('timeReason').value.trim();
-            if(!localData.time || !reason) { alert('請選取一個充電時光並填寫心聲！'); return; }
-            set(ref(db, `gamestate/${userRole}/time`), localData.time);
+            if(!localSelections.time || !reason) return alert('請選擇充電時光並填寫理由！');
+            set(ref(db, `gamestate/${userRole}/time`), localSelections.time);
             set(ref(db, `gamestate/${userRole}/reason`), reason);
-            alert('🧠 特務檔案全部建立完畢！');
-        }
+            set(ref(db, `gamestate/${userRole}/step`), 4);
+        };
+
+        window.saveStage4 = () => {
+            if(tempAnswers.includes(null)) return alert('請完成所有題目！');
+            const correct = ['A', 'B', 'A', 'B', 'B', 'A'];
+            let score = 0;
+            tempAnswers.forEach((a, i) => { if(a === correct[i]) score++; });
+            set(ref(db, `gamestate/${userRole}/score`), score);
+            set(ref(db, `gamestate/${userRole}/step`), 5);
+            alert(`📡 測驗上傳成功！你的戰力得分為：${score} / 6。正在等待其他特務完成以啟動靈魂共振...`);
+        };
     </script>
 </body>
 </html>
