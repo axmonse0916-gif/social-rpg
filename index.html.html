@@ -133,7 +133,6 @@
         }
         .locked { color: #95a5a6; text-align: center; font-style: italic; }
 
-        /* 老師主控台專用樣式 */
         .dashboard-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
         .p-panel { background: #0f172a; border: 2px solid #4e5d6c; padding: 15px; border-radius: 6px; }
         .p-panel h3 { margin-top: 0; color: #00ffd2; border-bottom: 1px solid #4e5d6c; padding-bottom: 5px; }
@@ -159,9 +158,7 @@
     <div class="container">
         <div id="roleIndicator" class="role-badge">正在偵測特務身份...</div>
 
-        <!-- ================= 學生撰寫介面 ================= -->
         <div id="studentInterface" style="display:none;">
-            <!-- 關卡一：角色登錄與家庭 -->
             <div id="stage1" class="stage active">
                 <h2>【關卡一：角色登錄與血緣羈絆】</h2>
                 <label for="pName">請輸入你的特務代號 (名字)：</label>
@@ -183,7 +180,6 @@
                 <div class="teacher-box" id="tBox1"><div class="locked">🔒 完成本關，解鎖導師國中回憶</div></div>
             </div>
 
-            <!-- 關卡二：天賦與戰力 -->
             <div id="stage2" class="stage">
                 <h2>【關卡二：天賦特質與奧義能力】</h2>
                 <label>選擇你最感興趣的「社會科魔法屬性」：</label>
@@ -206,13 +202,12 @@
                 </select>
 
                 <label for="pInterest">輸入一項你的個人興趣 (轉化為被動技能)：</label>
-                <input type="text" id="pInterest" placeholder="例如：打傳說、彈鋼琴、看動漫...">
+                <input type="text" id="pInterest" placeholder="placeholder='例如：打傳說、彈鋼琴、看動漫...'">
 
                 <button class="btn" onclick="saveStage2()">注入戰力屬性 🧪</button>
                 <div class="teacher-box" id="tBox2"><div class="locked">🔒 完成本關，解鎖導師高中瘋狂往事</div></div>
             </div>
 
-            <!-- 關卡三：記憶迴廊 -->
             <div id="stage3" class="stage">
                 <h2>【關卡三：記憶迴廊的充電時光】</h2>
                 <label>你認為校園冒險中，哪一個是最讚的「黃金充電時光」？</label>
@@ -231,17 +226,13 @@
             </div>
         </div>
 
-
-        <!-- ================= 老師全知主控台 (螢幕分享用) ================= -->
         <div id="teacherInterface" style="display:none;">
             <h2 style="color:#ffd700; text-align:center;">📊 調查局實時戰情螢幕 (進度即時同步中)</h2>
             <div class="dashboard-grid">
-                <!-- 學生 A 面板 -->
                 <div class="p-panel" id="panelP1">
                     <h3>冒險者 A <span id="p1Status" class="badge">尚未連線</span></h3>
                     <div id="p1Data">等待特務接入中...</div>
                 </div>
-                <!-- 學生 B 面板 -->
                 <div class="p-panel" id="panelP2">
                     <h3>冒險者 B <span id="p2Status" class="badge">尚未連線</span></h3>
                     <div id="p2Data">等待特務接入中...</div>
@@ -249,7 +240,6 @@
             </div>
         </div>
 
-        <!-- 最終聯動大事件 -->
         <div class="event-box" id="dualEventBox">
             <h2 style="color: #ff007f;">⚡ 時空局雙人靈魂共振 ⚡</h2>
             <div id="eventResultText">正在觀測兩位特務的羈絆頻率...</div>
@@ -261,66 +251,39 @@
                 (提示：跟他們在台灣推動的近代化建設口訣有關喔！)
             </div>
         </div>
-
     </div>
 
-    <!-- 載入 Firebase 核心與資料庫模組 -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
-        // Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
-
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
-// 🛠️ 終極除錯防呆版設定區塊
+        // 📝【請在此處的一格一格中，填入你的 Firebase 專案設定】
         const firebaseConfig = {
             apiKey: "AIzaSyDpfAgfCpfHBQoHDubHJX51Qph5nYKdv2Y",
             authDomain: "socilrpg.firebaseapp.com",
-            databaseURL: "https://socilrpg-default-rtdb.asia-southeast1.firebasedatabase.app", // 👈 注意：最後面不要有斜線 / 喔！
+            databaseURL: "https://socilrpg-default-rtdb.asia-southeast1.firebasedatabase.app", 
             projectId: "socilrpg",
             storageBucket: "socilrpg.firebasestorage.app",
             messagingSenderId: "715900417861",
             appId: "1:715900417861:web:a8e238e848688b5278f02c"
         };
 
-        // 🚨 安全檢查防呆機制：如果網址沒填對，直接彈出警告視窗告訴你哪裡錯了
-        if(firebaseConfig.databaseURL.includes("YOUR_PROJECT_ID") || !firebaseConfig.databaseURL.startsWith("https")) {
-            alert("⚠️ 偵測失敗原因：你的 databaseURL 欄位沒有填寫正確！請確認有把 Firebase 的資料庫網址完整貼過來。");
-        }
-
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
-
-        const app = initializeApp(firebaseConfig);
-        const db = getDatabase(app);
-
-        // 剖析網址參數 (?role=P1, ?role=P2, ?role=teacher)
         const urlParams = new URLSearchParams(window.location.search);
         let userRole = urlParams.get('role') || 'visitor';
 
-        // 老師的常規回答內容
         const teacherAnswers = {
             t1: "<b>🎵 導師秘密檔案 01</b>：<br>歡迎加入！我國中時期參加<b>國樂社</b>是我最開心的時光，在那裡認識了一群志同道合、一起瘋音樂的夥伴，這也是我愛上歷史與文化的起點喔！",
             t2: "<b>🔥 導師秘密檔案 02</b>：<br>我高中時做過最瘋狂的事情，就是<b>同時跑春暉社跟國樂社兩個社團</b>！每天放學都在排練與宣導活動之間瘋狂奔波，雖然累到爆，但真的超級熱血！"
         };
 
-        // 暫存本地學生選擇
         let localData = { subject: '', time: '' };
 
-        // 初始化界面控制
         if (userRole === 'P1' || userRole === 'P2') {
             document.getElementById('studentInterface').style.display = 'block';
             document.getElementById('roleIndicator').innerText = `🛸 當前身份：特務 ${userRole === 'P1' ? 'A' : 'B'}`;
-            // 監聽自己的即時資料，避免重新整理網頁時消失
             onValue(ref(db, 'gamestate/' + userRole), (snapshot) => {
                 const data = snapshot.val();
                 if(data) {
@@ -330,8 +293,6 @@ const analytics = getAnalytics(app);
                     if(data.interest) document.getElementById('pInterest').value = data.interest;
                     if(data.best) document.getElementById('pBest').value = data.best;
                     if(data.reason) document.getElementById('timeReason').value = data.reason;
-                    
-                    // 恢復卡牌高亮
                     if(data.subject) {
                         localData.subject = data.subject;
                         document.querySelectorAll('#stage2 .card').forEach(c => c.classList.remove('selected'));
@@ -344,12 +305,8 @@ const analytics = getAnalytics(app);
                         const tId = data.time === '下課十分鐘' ? 'time-break' : data.time === '午餐與午休' ? 'time-lunch' : data.time === '社團活動時間' ? 'time-club' : data.time === '音樂藝術課' ? 'time-music' : 'time-class';
                         document.getElementById(tId)?.classList.add('selected');
                     }
-
-                    // 控制階段開放
                     document.getElementById('stage2').className = 'stage' + (data.step >= 2 ? ' active' : '');
                     document.getElementById('stage3').className = 'stage' + (data.step >= 3 ? ' active' : '');
-                    
-                    // 解鎖導師檔案
                     document.getElementById('tBox1').innerHTML = data.step > 1 ? teacherAnswers.t1 : `<div class="locked">🔒 完成本關，解鎖導師國中回憶</div>`;
                     document.getElementById('tBox2').innerHTML = data.step > 2 ? teacherAnswers.t2 : `<div class="locked">🔒 完成本關，解鎖導師高中瘋狂往事</div>`;
                 }
@@ -363,27 +320,16 @@ const analytics = getAnalytics(app);
             document.getElementById('gameSubtitle').innerHTML = "<b style='color:red;'>⚠️ 請使用正確的參數網址進入（例如在網址後方加上 ?role=P1 ）</b>";
         }
 
-        // 監聽全域資料庫（供老師大螢幕即時同步，以及判斷雙人聯動）
         onValue(ref(db, 'gamestate'), (snapshot) => {
             const state = snapshot.val() || { P1: {}, P2: {} };
-            
-            // 1. 如果是老師，即時更新戰情大螢幕
-            if (userRole === 'teacher') {
-                updateTeacherDashboard(state);
-            }
-
-            // 2. 判斷是否兩人都填完最後一關，觸發聯動大事件
+            if (userRole === 'teacher') { updateTeacherDashboard(state); }
             if (state.P1 && state.P2 && state.P1.time && state.P2.time) {
                 document.getElementById('dualEventBox').style.display = 'block';
                 let resultHTML = "";
                 if (state.P1.time === state.P2.time) {
-                    resultHTML = `<h3>💖 【心靈相通：靈魂超共振】</h3>
-                    <p>天啊！局長雷達觀測到驚人磁場！<b>${state.P1.name}</b> 和 <b>${state.P2.name}</b> 最喜歡的校園時光竟然都是 <b>【${state.P1.time}】</b>！<br>
-                    你們簡直是命定的黃金冒險組合，第一堂課就自帶「超高默契 buff」！</p>`;
+                    resultHTML = `<h3>💖 【心靈相通：靈魂超共振】</h3><p>天啊！局長雷達觀測到驚人磁場！<b>${state.P1.name}</b> 和 <b>${state.P2.name}</b> 最喜歡的校園時光竟然都是 <b>【${state.P1.time}】</b>！<br>你們簡真是命定的黃金冒險組合！</p>`;
                 } else {
-                    resultHTML = `<h3>⚔️ 【思維碰撞：雙雄並立】</h3>
-                    <p>報告局長！<b>${state.P1.name}</b> 最鍾情於 <b>【${state.P1.time}】</b>，而 <b>${state.P2.name}</b> 則誓死守護 <b>【${state.P2.time}】</b>！<br>
-                    不同的冒險偏好代表不同的戰術風格，非常期待兩位在接下來的課堂上激盪出精彩火花！</p>`;
+                    resultHTML = `<h3>⚔️ 【思維碰撞：雙雄並立】</h3><p>報告局長！<b>${state.P1.name}</b> 最鍾情於 <b>【${state.P1.time}】</b>，而 <b>${state.P2.name}</b> 則誓死守護 <b>【${state.P2.time}】</b>！<br>看來接下來的課堂會非常精彩！</p>`;
                 }
                 document.getElementById('eventResultText').innerHTML = resultHTML;
             } else {
@@ -391,26 +337,15 @@ const analytics = getAnalytics(app);
             }
         });
 
-        // 渲染老師畫面的 function
         function updateTeacherDashboard(state) {
             ['P1', 'P2'].forEach(pKey => {
                 const p = state[pKey] || {};
                 const statusBadge = document.getElementById(`${pKey.toLowerCase()}Status`);
                 const dataBox = document.getElementById(`${pKey.toLowerCase()}Data`);
-                
                 if (p.name) {
                     statusBadge.innerText = `關卡 ${p.step || 1} 中`;
                     statusBadge.style.background = "#2b580c";
-                    dataBox.innerHTML = `
-                        <p><b>代號：</b> ${p.name}</p>
-                        <p><b>新手村：</b> ${p.school}</p>
-                        <p><b>手足：</b> ${p.siblings || '未填寫'}</p>
-                        <p><b>社會魔法屬性：</b> ${p.subject || '未填寫'}</p>
-                        <p><b>擅長學科：</b> ${p.best || '未填寫'}</p>
-                        <p><b>興趣技能：</b> ${p.interest || '未填寫'}</p>
-                        <p><b>充電時光：</b> ${p.time || '未填寫'}</p>
-                        <p><b>理由：</b> ${p.reason || '未填寫'}</p>
-                    `;
+                    dataBox.innerHTML = `<p><b>代號：</b> ${p.name}</p><p><b>新手村：</b> ${p.school}</p><p><b>手足：</b> ${p.siblings || '未填寫'}</p><p><b>魔法屬性：</b> ${p.subject || '未填寫'}</p><p><b>擅長學科：</b> ${p.best || '未填寫'}</p><p><b>興趣技能：</b> ${p.interest || '未填寫'}</p><p><b>充電時光：</b> ${p.time || '未填寫'}</p><p><b>理由：</b> ${p.reason || '未填寫'}</p>`;
                 } else {
                     statusBadge.innerText = "尚未連線";
                     statusBadge.style.background = "#790252";
@@ -419,7 +354,6 @@ const analytics = getAnalytics(app);
             });
         }
 
-        // 學生點擊卡牌的互動函數（綁定至 window 確保 HTML click 事件能觸發）
         window.selectSubject = function(subName, cardId) {
             localData.subject = subName;
             document.querySelectorAll('#stage2 .card').forEach(c => c.classList.remove('selected'));
@@ -432,39 +366,35 @@ const analytics = getAnalytics(app);
             document.getElementById(cardId).classList.add('selected');
         }
 
-        // 學生存檔並推送至 Firebase Realtime DB
         window.saveStage1 = function() {
             const name = document.getElementById('pName').value.trim();
             const school = document.getElementById('pSchool').value.trim();
             const siblings = document.getElementById('pSiblings').value;
             if(!name || !school || !siblings) { alert('欄位都要填滿才能傳送喔！'); return; }
-
             set(ref(db, `gamestate/${userRole}/name`), name);
             set(ref(db, `gamestate/${userRole}/school`), school);
             set(ref(db, `gamestate/${userRole}/siblings`), siblings);
             set(ref(db, `gamestate/${userRole}/step`), 2);
-            alert('📡 資料成功傳回總局！關卡二與導師回憶（一）已解鎖！');
+            alert('📡 資料成功傳回總局！關卡二已解鎖！');
         }
 
         window.saveStage2 = function() {
             const best = document.getElementById('pBest').value;
             const interest = document.getElementById('pInterest').value.trim();
             if(!localData.subject || !best || !interest) { alert('屬性、擅長科目與興趣都要配置喔！'); return; }
-
             set(ref(db, `gamestate/${userRole}/subject`), localData.subject);
             set(ref(db, `gamestate/${userRole}/best`), best);
             set(ref(db, `gamestate/${userRole}/interest`), interest);
             set(ref(db, `gamestate/${userRole}/step`), 3);
-            alert('🧪 戰力天賦注入成功！最後一關記憶迴廊與導師秘密檔案（二）已解鎖！');
+            alert('🧪 戰力天賦注入成功！最後一關已開啟！');
         }
 
         window.saveStage3 = function() {
             const reason = document.getElementById('timeReason').value.trim();
             if(!localData.time || !reason) { alert('請選取一個充電時光並填寫心聲！'); return; }
-
             set(ref(db, `gamestate/${userRole}/time`), localData.time);
             set(ref(db, `gamestate/${userRole}/reason`), reason);
-            alert('🧠 特務檔案全部建立完畢！請老師開啟大螢幕，看看你們有沒有心靈相通吧！');
+            alert('🧠 特務檔案全部建立完畢！');
         }
     </script>
 </body>
