@@ -185,8 +185,10 @@
             </div>
         </div>
 
-        <div id="teacherInterface" style="display:none;">
+<div id="teacherInterface" style="display:none;">
             <h2 style="color:#ffd700; text-align:center;">📊 調查局實時戰情螢幕 (學生作答同步中)</h2>
+            <button class="btn" style="background:#e94560; margin-bottom:20px;" onclick="resetAllData()">🔄 一鍵重置所有特務進度 (清空雲端資料)</button>
+            
             <div class="dashboard-grid">
                 <div class="p-panel" id="panelP1">
                     <h3>冒險者 A <span id="p1Status" class="badge">尚未連線</span></h3>
@@ -365,6 +367,17 @@
             set(ref(db, `gamestate/${userRole}/score`), score);
             set(ref(db, `gamestate/${userRole}/step`), 5);
             alert(`📡 測驗上傳成功！你的戰力得分為：${score} / 6。正在等待其他特務完成以啟動靈魂共振...`);
+        };
+        // 🔄 秘密重置功能的程式碼
+        window.resetAllData = () => {
+            if(confirm("確定要清空所有特務的進度，重新開始遊戲嗎？")) {
+                set(ref(db, 'gamestate'), {
+                    P1: { step: 1, name: "", school: "", siblings: "", attr: "", best: "", interest: "", time: "", reason: "", score: 0 },
+                    P2: { step: 1, name: "", school: "", siblings: "", attr: "", best: "", interest: "", time: "", reason: "", score: 0 }
+                }).then(() => {
+                    alert("🧹 雲端資料庫已成功重置！兩位特務的畫面已回到出發點。");
+                });
+            }
         };
     </script>
 </body>
