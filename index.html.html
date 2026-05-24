@@ -277,16 +277,24 @@ import { getAnalytics } from "firebase/analytics";
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-const firebaseConfig = {
-  apiKey: "AIzaSyDpfAgfCpfHBQoHDubHJX51Qph5nYKdv2Y",
-  authDomain: "socilrpg.firebaseapp.com",
-  databaseURL:"https://socilrpg-default-rtdb.asia-southeast1.firebasedatabase.app/",
-  projectId: "socilrpg",
-  storageBucket: "socilrpg.firebasestorage.app",
-  messagingSenderId: "715900417861",
-  appId: "1:715900417861:web:a8e238e848688b5278f02c",
-  measurementId: "G-NCP60FWF2D"
-};
+// 🛠️ 終極除錯防呆版設定區塊
+        const firebaseConfig = {
+            apiKey: "AIzaSyDpfAgfCpfHBQoHDubHJX51Qph5nYKdv2Y",
+            authDomain: "socilrpg.firebaseapp.com",
+            databaseURL: "https://socilrpg-default-rtdb.asia-southeast1.firebasedatabase.app", // 👈 注意：最後面不要有斜線 / 喔！
+            projectId: "socilrpg",
+            storageBucket: "socilrpg.firebasestorage.app",
+            messagingSenderId: "715900417861",
+            appId: "1:715900417861:web:a8e238e848688b5278f02c"
+        };
+
+        // 🚨 安全檢查防呆機制：如果網址沒填對，直接彈出警告視窗告訴你哪裡錯了
+        if(firebaseConfig.databaseURL.includes("YOUR_PROJECT_ID") || !firebaseConfig.databaseURL.startsWith("https")) {
+            alert("⚠️ 偵測失敗原因：你的 databaseURL 欄位沒有填寫正確！請確認有把 Firebase 的資料庫網址完整貼過來。");
+        }
+
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
