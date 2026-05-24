@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>社會時空調查局：夥伴召集令</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@500;700&display=swap');
+
+        :root {
+            --bg-color: #1a1a2e;
+            --panel-color: #16213e;
+            --accent-color: #e94560;
+            --text-color: #f1f1f1;
+            --pixel-border: 4px solid #fff;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Noto Sans TC', sans-serif;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .game-title {
+            font-size: 2.3rem;
+            color: #ffd700;
+            text-shadow: 3px 3px #ff4500;
+            text-align: center;
+            margin-bottom: 5px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #a2a8d3;
+            margin-bottom: 25px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px;
+            background: var(--panel-color);
+            border: var(--pixel-border);
+            box-shadow: 8px 8px 0px #0f172a;
+            padding: 25px;
+            box-sizing: border-box;
+            border-radius: 8px;
+        }
+
+        .role-badge {
+            background: #e94560;
+            color: white;
+            padding: 5px 15px;
+            font-weight: bold;
+            border-radius: 20px;
+            margin-bottom: 15px;
+            display: inline-block;
+        }
+
+        .stage {
+            display: none;
+            margin-bottom: 25px;
+            padding: 20px;
+            background: rgba(255,255,255,0.05);
+            border-left: 5px solid var(--accent-color);
+            border-radius: 4px;
+        }
+
+        .stage.active { display: block; animation: fadeIn 0.5s; }
+
+        h2 { color: #00ffd2; margin-top: 0; font-size: 1.4rem; }
+        label { display: block; margin: 15px 0 5px; font-size: 1.05rem; font-weight: bold; }
+        
+        input[type="text"], select {
+            width: 100%;
+            padding: 12px;
+            background: #0f172a;
+            border: 2px solid #4e5d6c;
+            color: white;
+            font-size: 1rem;
+            box-sizing: border-box;
+            border-radius: 4px;
+        }
+        input[type="text"]:focus, select:focus { border-color: var(--accent-color); outline: none; }
+
+        .card-group {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 12px;
+            margin-top: 10px;
+        }
+
+        .card {
+            background: #252a34;
+            border: 2px solid #4e5d6c;
+            padding: 12px;
+            text-align: center;
+            cursor: pointer;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+        .card:hover { border-color: #ffd700; transform: translateY(-2px); }
+        .card.selected { background: #2b580c; border-color: #00ff00; box-shadow: 0 0 8px rgba(0,255,0,0.4); }
+        .card h3 { margin: 0 0 5px 0; font-size: 1.05rem; color: #ffde7d; }
+        .card p { margin: 0; font-size: 0.85rem; color: #b8b8b8; }
+
+        .btn {
+            background: #00b4d8;
+            color: #fff;
+            border: none;
+            padding: 12px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 15px;
+            width: 100%;
+            border-radius: 4px;
+            text-shadow: 1px 1px #000;
+        }
+        .btn:hover { background: #0096c7; }
+
+        .teacher-box {
+            margin-top: 15px;
+            padding: 12px;
+            background: #34495e;
+            border: 2px dashed #ffd700;
+            border-radius: 6px;
+            font-size: 0.95rem;
+        }
+        .locked { color: #95a5a6; text-align: center; font-style: italic; }
+
+        /* 老師主控台專用樣式 */
+        .dashboard-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .p-panel { background: #0f172a; border: 2px solid #4e5d6c; padding: 15px; border-radius: 6px; }
+        .p-panel h3 { margin-top: 0; color: #00ffd2; border-bottom: 1px solid #4e5d6c; padding-bottom: 5px; }
+        .badge { background: #790252; padding: 2px 8px; border-radius: 4px; font-size: 0.8rem; margin-left: 5px; }
+
+        .event-box {
+            display: none;
+            background: linear-gradient(45deg, #4c0033, #790252);
+            border: 3px double #ff007f;
+            padding: 20px;
+            margin-top: 25px;
+            text-align: center;
+            border-radius: 8px;
+        }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    </style>
+</head>
+<body>
+
+    <div class="game-title">⚔️ 社會時空調查局 ⚔️</div>
+    <div class="subtitle" id="gameSubtitle">【時空特務連線召集令】</div>
+
+    <div class="container">
+        <div id="roleIndicator" class="role-badge">正在偵測特務身份...</div>
+
+        <!-- ================= 學生撰寫介面 ================= -->
+        <div id="studentInterface" style="display:none;">
+            <!-- 關卡一：角色登錄與家庭 -->
+            <div id="stage1" class="stage active">
+                <h2>【關卡一：角色登錄與血緣羈絆】</h2>
+                <label for="pName">請輸入你的特務代號 (名字)：</label>
+                <input type="text" id="pName" placeholder="例如：東區羅賓漢">
+
+                <label for="pSchool">出身新手村 (就讀學校)：</label>
+                <input type="text" id="pSchool" placeholder="例如：培英國中">
+
+                <label for="pSiblings">你的「庇護所夥伴」狀況 (有無兄弟姊妹)：</label>
+                <select id="pSiblings">
+                    <option value="">-- 請選擇夥伴基因型態 --</option>
+                    <option value="我是獨生子/獨生女，獨享基地物資">我是獨生子/獨生女，獨享基地物資 💎</option>
+                    <option value="有哥哥/姐姐，常得到高級裝備支援">有哥哥/姐姐，常得到高級裝備支援 🛡️</option>
+                    <option value="有弟弟/妹妹，需要負責帶領新手升級">有弟弟/妹妹，需要負責帶領新手升級 🍼</option>
+                    <option value="同時有兄姐與弟妹，夾在中間的資深冒險家">同時有兄姐與弟妹，夾在中間的資深冒險家 👑</option>
+                </select>
+                
+                <button class="btn" onclick="saveStage1()">保存基本檔案並傳回總局 📡</button>
+                <div class="teacher-box" id="tBox1"><div class="locked">🔒 完成本關，解鎖導師國中回憶</div></div>
+            </div>
+
+            <!-- 關卡二：天賦與戰力 -->
+            <div id="stage2" class="stage">
+                <h2>【關卡二：天賦特質與奧義能力】</h2>
+                <label>選擇你最感興趣的「社會科魔法屬性」：</label>
+                <div class="card-group">
+                    <div class="card" id="sub-history" onclick="selectSubject('歷史', 'sub-history')"><h3>⏳ 時間魔法 (歷史)</h3><p>穿梭過去與未來，看透因果</p></div>
+                    <div class="card" id="sub-geo" onclick="selectSubject('地理', 'sub-geo')"><h3>🗺️ 空間傳送 (地理)</h3><p>掌握地表經緯，一秒定位世界</p></div>
+                    <div class="card" id="sub-civic" onclick="selectSubject('公民', 'sub-civic')"><h3>⚖️ 秩序聖光 (公民)</h3><p>探討法律經濟與社會正義</p></div>
+                </div>
+
+                <label for="pBest">你目前在常規戰場中「最擅長」的魔法學科是？</label>
+                <select id="pBest">
+                    <option value="">-- 請選擇擅長學科 --</option>
+                    <option value="國文">📝 語文凝聚 (國文)</option>
+                    <option value="英文">🔤 跨界溝通 (英文)</option>
+                    <option value="數學">🔢 邏輯矩陣 (數學)</option>
+                    <option value="物理/化學">🧪 物質煉金 (理化)</option>
+                    <option value="生物/生科">🧬 生命奧秘 (生物/生科)</option>
+                    <option value="社會科">🌍 萬物洞察 (社會)</option>
+                    <option value="藝術/體育">🎨 靈魂解放 (藝能/體育)</option>
+                </select>
+
+                <label for="pInterest">輸入一項你的個人興趣 (轉化為被動技能)：</label>
+                <input type="text" id="pInterest" placeholder="例如：打傳說、彈鋼琴、看動漫...">
+
+                <button class="btn" onclick="saveStage2()">注入戰力屬性 🧪</button>
+                <div class="teacher-box" id="tBox2"><div class="locked">🔒 完成本關，解鎖導師高中瘋狂往事</div></div>
+            </div>
+
+            <!-- 關卡三：記憶迴廊 -->
+            <div id="stage3" class="stage">
+                <h2>【關卡三：記憶迴廊的充電時光】</h2>
+                <label>你認為校園冒險中，哪一個是最讚的「黃金充電時光」？</label>
+                <div class="card-group">
+                    <div class="card" id="time-break" onclick="selectTime('下課十分鐘', 'time-break')"><h3>🏃‍♂️ 下課十分鐘</h3><p>衝福利社、講垃圾話</p></div>
+                    <div class="card" id="time-lunch" onclick="selectTime('午餐與午休', 'time-lunch')"><h3>🍱 歡樂午餐時光</h3><p>全班大吃大喝期待主菜</p></div>
+                    <div class="card" id="time-club" onclick="selectTime('社團活動時間', 'time-club')"><h3>🎸 靈魂共鳴社團課</h3><p>燃燒興趣的自由時間</p></div>
+                    <div class="card" id="time-music" onclick="selectTime('音樂藝術課', 'time-music')"><h3>🎵 療癒旋律音樂課</h3><p>放鬆緊繃課業的歌唱</p></div>
+                    <div class="card" id="time-class" onclick="selectTime('精彩的上課時光', 'time-class')"><h3>💡 獲得新知的上課</h3><p>跟同學互動聽故事</p></div>
+                </div>
+
+                <label for="timeReason">請簡短寫下你選這個時光的理由：</label>
+                <input type="text" id="timeReason" placeholder="例如：因為可以學到課本以外的樂器很有成就感">
+
+                <button class="btn" onclick="saveStage3()">上傳終極校園記憶 🧠</button>
+            </div>
+        </div>
+
+
+        <!-- ================= 老師全知主控台 (螢幕分享用) ================= -->
+        <div id="teacherInterface" style="display:none;">
+            <h2 style="color:#ffd700; text-align:center;">📊 調查局實時戰情螢幕 (進度即時同步中)</h2>
+            <div class="dashboard-grid">
+                <!-- 學生 A 面板 -->
+                <div class="p-panel" id="panelP1">
+                    <h3>冒險者 A <span id="p1Status" class="badge">尚未連線</span></h3>
+                    <div id="p1Data">等待特務接入中...</div>
+                </div>
+                <!-- 學生 B 面板 -->
+                <div class="p-panel" id="panelP2">
+                    <h3>冒險者 B <span id="p2Status" class="badge">尚未連線</span></h3>
+                    <div id="p2Data">等待特務接入中...</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 最終聯動大事件 -->
+        <div class="event-box" id="dualEventBox">
+            <h2 style="color: #ff007f;">⚡ 時空局雙人靈魂共振 ⚡</h2>
+            <div id="eventResultText">正在觀測兩位特務的羈絆頻率...</div>
+            <hr style="border-color: #ff007f; margin: 15px 0;">
+            <h3 style="color: #ffd700;">🎯 局長加碼：首堂課課前挑戰賽</h3>
+            <p>請兩位特務動動腦，並把以下這題謎題的答案，在第一堂課見面時告訴老師，最快且答對的人可獲得<b>【神祕點心兌換券】</b>！</p>
+            <div style="background: rgba(0,0,0,0.4); padding: 12px; border-radius: 4px; font-weight: bold; color: #00ffd2; text-align: left;">
+                謎題：「如果台灣清領時期的沈葆楨、丁日昌、劉銘傳三位大人一起去吃火鍋，請問是誰要負責點菜負責付錢？」<br>
+                (提示：跟他們在台灣推動的近代化建設口訣有關喔！)
+            </div>
+        </div>
+
+    </div>
+
+    <!-- 載入 Firebase 核心與資料庫模組 -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+
+        // Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyDpfAgfCpfHBQoHDubHJX51Qph5nYKdv2Y",
+  authDomain: "socilrpg.firebaseapp.com",
+  projectId: "socilrpg",
+  storageBucket: "socilrpg.firebasestorage.app",
+  messagingSenderId: "715900417861",
+  appId: "1:715900417861:web:a8e238e848688b5278f02c",
+  measurementId: "G-NCP60FWF2D"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
+
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+
+        // 剖析網址參數 (?role=P1, ?role=P2, ?role=teacher)
+        const urlParams = new URLSearchParams(window.location.search);
+        let userRole = urlParams.get('role') || 'visitor';
+
+        // 老師的常規回答內容
+        const teacherAnswers = {
+            t1: "<b>🎵 導師秘密檔案 01</b>：<br>歡迎加入！我國中時期參加<b>國樂社</b>是我最開心的時光，在那裡認識了一群志同道合、一起瘋音樂的夥伴，這也是我愛上歷史與文化的起點喔！",
+            t2: "<b>🔥 導師秘密檔案 02</b>：<br>我高中時做過最瘋狂的事情，就是<b>同時跑春暉社跟國樂社兩個社團</b>！每天放學都在排練與宣導活動之間瘋狂奔波，雖然累到爆，但真的超級熱血！"
+        };
+
+        // 暫存本地學生選擇
+        let localData = { subject: '', time: '' };
+
+        // 初始化界面控制
+        if (userRole === 'P1' || userRole === 'P2') {
+            document.getElementById('studentInterface').style.display = 'block';
+            document.getElementById('roleIndicator').innerText = `🛸 當前身份：特務 ${userRole === 'P1' ? 'A' : 'B'}`;
+            // 監聽自己的即時資料，避免重新整理網頁時消失
+            onValue(ref(db, 'gamestate/' + userRole), (snapshot) => {
+                const data = snapshot.val();
+                if(data) {
+                    if(data.name) document.getElementById('pName').value = data.name;
+                    if(data.school) document.getElementById('pSchool').value = data.school;
+                    if(data.siblings) document.getElementById('pSiblings').value = data.siblings;
+                    if(data.interest) document.getElementById('pInterest').value = data.interest;
+                    if(data.best) document.getElementById('pBest').value = data.best;
+                    if(data.reason) document.getElementById('timeReason').value = data.reason;
+                    
+                    // 恢復卡牌高亮
+                    if(data.subject) {
+                        localData.subject = data.subject;
+                        document.querySelectorAll('#stage2 .card').forEach(c => c.classList.remove('selected'));
+                        const subId = data.subject === '歷史' ? 'sub-history' : data.subject === '地理' ? 'sub-geo' : 'sub-civic';
+                        document.getElementById(subId)?.classList.add('selected');
+                    }
+                    if(data.time) {
+                        localData.time = data.time;
+                        document.querySelectorAll('#stage3 .card').forEach(c => c.classList.remove('selected'));
+                        const tId = data.time === '下課十分鐘' ? 'time-break' : data.time === '午餐與午休' ? 'time-lunch' : data.time === '社團活動時間' ? 'time-club' : data.time === '音樂藝術課' ? 'time-music' : 'time-class';
+                        document.getElementById(tId)?.classList.add('selected');
+                    }
+
+                    // 控制階段開放
+                    document.getElementById('stage2').className = 'stage' + (data.step >= 2 ? ' active' : '');
+                    document.getElementById('stage3').className = 'stage' + (data.step >= 3 ? ' active' : '');
+                    
+                    // 解鎖導師檔案
+                    document.getElementById('tBox1').innerHTML = data.step > 1 ? teacherAnswers.t1 : `<div class="locked">🔒 完成本關，解鎖導師國中回憶</div>`;
+                    document.getElementById('tBox2').innerHTML = data.step > 2 ? teacherAnswers.t2 : `<div class="locked">🔒 完成本關，解鎖導師高中瘋狂往事</div>`;
+                }
+            });
+        } else if (userRole === 'teacher') {
+            document.getElementById('teacherInterface').style.display = 'block';
+            document.getElementById('roleIndicator').innerText = "🧔 身份確認：全知局長主控台";
+            document.getElementById('roleIndicator').style.background = "#ffd700";
+            document.getElementById('roleIndicator').style.color = "#000";
+        } else {
+            document.getElementById('gameSubtitle').innerHTML = "<b style='color:red;'>⚠️ 請使用正確的參數網址進入（例如在網址後方加上 ?role=P1 ）</b>";
+        }
+
+        // 監聽全域資料庫（供老師大螢幕即時同步，以及判斷雙人聯動）
+        onValue(ref(db, 'gamestate'), (snapshot) => {
+            const state = snapshot.val() || { P1: {}, P2: {} };
+            
+            // 1. 如果是老師，即時更新戰情大螢幕
+            if (userRole === 'teacher') {
+                updateTeacherDashboard(state);
+            }
+
+            // 2. 判斷是否兩人都填完最後一關，觸發聯動大事件
+            if (state.P1 && state.P2 && state.P1.time && state.P2.time) {
+                document.getElementById('dualEventBox').style.display = 'block';
+                let resultHTML = "";
+                if (state.P1.time === state.P2.time) {
+                    resultHTML = `<h3>💖 【心靈相通：靈魂超共振】</h3>
+                    <p>天啊！局長雷達觀測到驚人磁場！<b>${state.P1.name}</b> 和 <b>${state.P2.name}</b> 最喜歡的校園時光竟然都是 <b>【${state.P1.time}】</b>！<br>
+                    你們簡直是命定的黃金冒險組合，第一堂課就自帶「超高默契 buff」！</p>`;
+                } else {
+                    resultHTML = `<h3>⚔️ 【思維碰撞：雙雄並立】</h3>
+                    <p>報告局長！<b>${state.P1.name}</b> 最鍾情於 <b>【${state.P1.time}】</b>，而 <b>${state.P2.name}</b> 則誓死守護 <b>【${state.P2.time}】</b>！<br>
+                    不同的冒險偏好代表不同的戰術風格，非常期待兩位在接下來的課堂上激盪出精彩火花！</p>`;
+                }
+                document.getElementById('eventResultText').innerHTML = resultHTML;
+            } else {
+                document.getElementById('dualEventBox').style.display = 'none';
+            }
+        });
+
+        // 渲染老師畫面的 function
+        function updateTeacherDashboard(state) {
+            ['P1', 'P2'].forEach(pKey => {
+                const p = state[pKey] || {};
+                const statusBadge = document.getElementById(`${pKey.toLowerCase()}Status`);
+                const dataBox = document.getElementById(`${pKey.toLowerCase()}Data`);
+                
+                if (p.name) {
+                    statusBadge.innerText = `關卡 ${p.step || 1} 中`;
+                    statusBadge.style.background = "#2b580c";
+                    dataBox.innerHTML = `
+                        <p><b>代號：</b> ${p.name}</p>
+                        <p><b>新手村：</b> ${p.school}</p>
+                        <p><b>手足：</b> ${p.siblings || '未填寫'}</p>
+                        <p><b>社會魔法屬性：</b> ${p.subject || '未填寫'}</p>
+                        <p><b>擅長學科：</b> ${p.best || '未填寫'}</p>
+                        <p><b>興趣技能：</b> ${p.interest || '未填寫'}</p>
+                        <p><b>充電時光：</b> ${p.time || '未填寫'}</p>
+                        <p><b>理由：</b> ${p.reason || '未填寫'}</p>
+                    `;
+                } else {
+                    statusBadge.innerText = "尚未連線";
+                    statusBadge.style.background = "#790252";
+                    dataBox.innerHTML = "等待特務連線與輸入...";
+                }
+            });
+        }
+
+        // 學生點擊卡牌的互動函數（綁定至 window 確保 HTML click 事件能觸發）
+        window.selectSubject = function(subName, cardId) {
+            localData.subject = subName;
+            document.querySelectorAll('#stage2 .card').forEach(c => c.classList.remove('selected'));
+            document.getElementById(cardId).classList.add('selected');
+        }
+
+        window.selectTime = function(timeName, cardId) {
+            localData.time = timeName;
+            document.querySelectorAll('#stage3 .card').forEach(c => c.classList.remove('selected'));
+            document.getElementById(cardId).classList.add('selected');
+        }
+
+        // 學生存檔並推送至 Firebase Realtime DB
+        window.saveStage1 = function() {
+            const name = document.getElementById('pName').value.trim();
+            const school = document.getElementById('pSchool').value.trim();
+            const siblings = document.getElementById('pSiblings').value;
+            if(!name || !school || !siblings) { alert('欄位都要填滿才能傳送喔！'); return; }
+
+            set(ref(db, `gamestate/${userRole}/name`), name);
+            set(ref(db, `gamestate/${userRole}/school`), school);
+            set(ref(db, `gamestate/${userRole}/siblings`), siblings);
+            set(ref(db, `gamestate/${userRole}/step`), 2);
+            alert('📡 資料成功傳回總局！關卡二與導師回憶（一）已解鎖！');
+        }
+
+        window.saveStage2 = function() {
+            const best = document.getElementById('pBest').value;
+            const interest = document.getElementById('pInterest').value.trim();
+            if(!localData.subject || !best || !interest) { alert('屬性、擅長科目與興趣都要配置喔！'); return; }
+
+            set(ref(db, `gamestate/${userRole}/subject`), localData.subject);
+            set(ref(db, `gamestate/${userRole}/best`), best);
+            set(ref(db, `gamestate/${userRole}/interest`), interest);
+            set(ref(db, `gamestate/${userRole}/step`), 3);
+            alert('🧪 戰力天賦注入成功！最後一關記憶迴廊與導師秘密檔案（二）已解鎖！');
+        }
+
+        window.saveStage3 = function() {
+            const reason = document.getElementById('timeReason').value.trim();
+            if(!localData.time || !reason) { alert('請選取一個充電時光並填寫心聲！'); return; }
+
+            set(ref(db, `gamestate/${userRole}/time`), localData.time);
+            set(ref(db, `gamestate/${userRole}/reason`), reason);
+            alert('🧠 特務檔案全部建立完畢！請老師開啟大螢幕，看看你們有沒有心靈相通吧！');
+        }
+    </script>
+</body>
+</html>
